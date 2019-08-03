@@ -42,43 +42,23 @@ class Partenaire
      * @ORM\Column(type="string", length=255)
      */
     private $email;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $nomAp;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $prenomAp;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $telAp;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $emailAp;
-
+    
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Compte", mappedBy="partenaire")
      */
     private $compte;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="partenaire")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="partenaire")
      */
-    private $user;
+    private $users;
 
     public function __construct()
     {
-        $this->compte = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -144,54 +124,6 @@ class Partenaire
         return $this;
     }
 
-    public function getNomAp(): ?string
-    {
-        return $this->nomAp;
-    }
-
-    public function setNomAp(string $nomAp): self
-    {
-        $this->nomAp = $nomAp;
-
-        return $this;
-    }
-
-    public function getPrenomAp(): ?string
-    {
-        return $this->prenomAp;
-    }
-
-    public function setPrenomAp(string $prenomAp): self
-    {
-        $this->prenomAp = $prenomAp;
-
-        return $this;
-    }
-
-    public function getTelAp(): ?string
-    {
-        return $this->telAp;
-    }
-
-    public function setTelAp(string $telAp): self
-    {
-        $this->telAp = $telAp;
-
-        return $this;
-    }
-
-    public function getEmailAp(): ?string
-    {
-        return $this->emailAp;
-    }
-
-    public function setEmailAp(string $emailAp): self
-    {
-        $this->emailAp = $emailAp;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Compte[]
      */
@@ -223,15 +155,32 @@ class Partenaire
         return $this;
     }
 
-    public function getUser(): ?User
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
     {
-        return $this->user;
+        return $this->users;
     }
 
-    public function setUser(?User $user): self
+    public function addUser(User $user): self
     {
-        $this->user = $user;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addPartenaire($this);
+        }
 
         return $this;
     }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removePartenaire($this);
+        }
+
+        return $this;
+    }
+
 }

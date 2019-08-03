@@ -18,13 +18,13 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {    
          $user =new User();   
-         $user->setUsername('yahya@gmail.com');
+         $user->setUsername('admin@gmail.com');
          $user->setRoles(['ROLE_SUPER_ADMIN']);
          $password = $this->encoder->encodePassword($user, 'pass123');
          $user->setPassword($password);
          $user->setNom('LY');
          $user->setPrenom('Yaya');
-         $user->setTel('771236655');
+         $user->setTeluser('771237655');
          $manager->persist($user);
          $manager->flush();
     }

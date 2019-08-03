@@ -38,11 +38,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Partenaire", mappedBy="user")
-     */
-    private $partenaire;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
@@ -53,14 +48,21 @@ class User implements UserInterface
     private $prenom;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Partenaire", inversedBy="users")
+     */
+    private $partenaire;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
-    private $tel;
+    private $teluser;
+
     public function __construct()
     {
         $this->partenaire = new ArrayCollection();
     }
 
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -134,37 +136,6 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection|Partenaire[]
-     */
-    public function getPartenaire(): Collection
-    {
-        return $this->partenaire;
-    }
-
-    public function addPartenaire(Partenaire $partenaire): self
-    {
-        if (!$this->partenaire->contains($partenaire)) {
-            $this->partenaire[] = $partenaire;
-            $partenaire->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePartenaire(Partenaire $partenaire): self
-    {
-        if ($this->partenaire->contains($partenaire)) {
-            $this->partenaire->removeElement($partenaire);
-            // set the owning side to null (unless already changed)
-            if ($partenaire->getUser() === $this) {
-                $partenaire->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getNom(): ?string
     {
         return $this->nom;
@@ -197,6 +168,44 @@ class User implements UserInterface
     public function setTel(string $tel): self
     {
         $this->tel = $tel;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Partenaire[]
+     */
+    public function getPartenaire(): Collection
+    {
+        return $this->partenaire;
+    }
+
+    public function addPartenaire(Partenaire $partenaire): self
+    {
+        if (!$this->partenaire->contains($partenaire)) {
+            $this->partenaire[] = $partenaire;
+        }
+
+        return $this;
+    }
+
+    public function removePartenaire(Partenaire $partenaire): self
+    {
+        if ($this->partenaire->contains($partenaire)) {
+            $this->partenaire->removeElement($partenaire);
+        }
+
+        return $this;
+    }
+
+    public function getTeluser(): ?string
+    {
+        return $this->teluser;
+    }
+
+    public function setTeluser(string $teluser): self
+    {
+        $this->teluser = $teluser;
 
         return $this;
     }
