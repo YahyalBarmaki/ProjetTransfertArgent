@@ -57,6 +57,11 @@ class User implements UserInterface
      */
     private $teluser;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
     public function __construct()
     {
         $this->partenaire = new ArrayCollection();
@@ -206,6 +211,18 @@ class User implements UserInterface
     public function setTeluser(string $teluser): self
     {
         $this->teluser = $teluser;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
