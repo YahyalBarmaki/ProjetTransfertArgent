@@ -16,7 +16,7 @@ class TestDepotTest extends WebTestCase
         $crawler = $client->request('POST', '/api/inscris',[],[],
         ['CONTENT_TYPE'=>"application/json"],'
         {   
-            ""compte_id":1,
+            "compte_id":1,
             "montantdepot":75000
         }'
         );

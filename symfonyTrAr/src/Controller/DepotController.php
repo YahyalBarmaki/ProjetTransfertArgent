@@ -31,7 +31,7 @@ class DepotController extends AbstractController
     /**
      * @Route("/addDepot", name="add_depot", methods={"POST"})
      */
-    public function addDepot(Request $request, EntityManagerInterface $entityManager)
+    public function addDepot(Request $request, EntityManagerInterface $entityManager,SerializerInterface $serializer, ValidatorInterface $validator)
         {
             $values = json_decode($request->getContent());
                 $depot = new Depot();
@@ -41,6 +41,13 @@ class DepotController extends AbstractController
                 $compte = $this->getDoctrine()->getRepository(Compte::class)->find($values->compte_id);
                 $compte->setSolde($compte->getSolde() + $values->montantdepot);
                 $depot->setCompte($compte);
+                $errors = $validator->validate($depot);
+                    if(count($errors)) {
+                $errors = $serializer->serialize($errors, 'json');
+                    return new Response($errors, 500, [
+                'Content-Type' => 'application/json'
+                ]);
+                }
                 $entityManager->persist($depot);
                 $entityManager->flush();
                 $data = [

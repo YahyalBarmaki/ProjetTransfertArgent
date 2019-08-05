@@ -27,7 +27,7 @@ class Depot
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Le champ ne doit pas être vide")
-     * @Assert\Range(min=75000)
+     * @Assert\Range(min=75000,minMessage="La somme doit supérieur 75000")
      */
     private $montantdepot;
 

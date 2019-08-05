@@ -41,6 +41,7 @@ security:
     access_control:
         - { path: ^/api/addpart, roles: ROLE_SUPER_ADMIN }
         - { path: ^/api/inscris, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/api/inscris, roles: ROLE_PARTENAIRE }
         - { path: ^/api/addDepot, roles: ROLE_CASSIER }
 
         # - { path: ^/profile, roles: ROLE_USER }
