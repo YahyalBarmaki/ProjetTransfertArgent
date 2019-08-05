@@ -38,7 +38,7 @@ class UserController extends AbstractController
                     $user = new User();
                     $user->setUsername($values->username);
                     $user->setPassword($passwordEncoder->encodePassword($user, $values->password));
-                    $user->setRoles($user->getRoles());
+                    $user->setRoles($values->roles);
                     $user->setNom($values->nom);
                     $user->setPrenom($values->prenom);
                     $user->setTeluser($values->teluser);

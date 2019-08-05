@@ -40,8 +40,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/addpart, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/api/inscris, roles: ROLE_SUPER_ADMIN }
         - { path: ^/api/addDepot, roles: ROLE_CASSIER }
-        - { path: ^/api/addcompte, roles: ROLE_CASSIER }
 
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

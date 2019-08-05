@@ -29,6 +29,8 @@ class Compte
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Le champ ne doit pas être vide")
+     * @Assert\Range(min="75000",
+     *      minMessage = "Le minimum doit suprieur ou égale 75000")
      */
     private $solde;
 
