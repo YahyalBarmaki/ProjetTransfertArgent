@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -23,48 +25,57 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $username;
 
     /**
      * @ORM\Column(type="json")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $prenom;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Partenaire", inversedBy="users")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $partenaire;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $teluser;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $status;
 
     public function __construct()
     {
         $this->partenaire = new ArrayCollection();
+        $this->status=true;
     }
 
     
@@ -225,7 +236,5 @@ class User implements UserInterface
         $this->status = $status;
 
         return $this;
-    }
-
-    
+    }  
 }

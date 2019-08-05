@@ -25,6 +25,7 @@ class AppFixtures extends Fixture
          $user->setNom('LY');
          $user->setPrenom('Yaya');
          $user->setTeluser('771237655');
+         $user->setStatus(1);
          $manager->persist($user);
          $manager->flush();
     }

@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * @Route("/api",name="_api")
  */
@@ -40,7 +41,7 @@ class PartenaireController extends AbstractController
      * @Route("/addpart", name="addPartenaire")
      * @IsGranted("ROLE_SUPER_ADMIN")
      */
-    public function ajoutP(Request $request, EntityManagerInterface $entityManager)
+    public function ajoutP(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer,ValidatorInterface $validator)
         {
             $values = json_decode($request->getContent());      
             $partenaire = new Partenaire();
@@ -58,6 +59,7 @@ class PartenaireController extends AbstractController
                 $user->setNom($values->nom);
                 $user->setPrenom($values->prenom);
                 $user->setTeluser($values->teluser); 
+                $user->setStatus($values->status);
             $cpt = new Compte();
             $recup = substr($entrp,0,2);  
             while (true) {
@@ -85,8 +87,8 @@ class PartenaireController extends AbstractController
                       
 
         return new Response(
-            'Saved new user with id: '.$user->getId()
-            .' and new partenaire with id: '.$partenaire->getId().'and new compte with id'.
+            "L'utilisateur a été enregistré avec succé :".$user->getId()
+            ."Le partenaire a été enregistré avec succé :".$partenaire->getId()."et compte a été enregistré avec succé :".
             $cpt->getId()
         );     
         }

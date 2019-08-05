@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DepotRepository")
@@ -18,11 +20,14 @@ class Depot
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
      */
     private $dateDepot;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Le champ ne doit pas être vide")
+     * @Assert\Range(min="75000")
      */
     private $montantdepot;
 

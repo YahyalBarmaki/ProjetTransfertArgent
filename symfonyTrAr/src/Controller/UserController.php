@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -41,6 +42,7 @@ class UserController extends AbstractController
                     $user->setNom($values->nom);
                     $user->setPrenom($values->prenom);
                     $user->setTeluser($values->teluser);
+                    $user->setStatus($values->status);
                     $errors = $validator->validate($user);
                     if(count($errors))
                         {
