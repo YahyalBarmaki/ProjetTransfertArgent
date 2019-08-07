@@ -80,16 +80,13 @@ class PartenaireController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($partenaire);
                 $entityManager->persist($user);
-                $entityManager->persist($cpt);
-                 // relates this partenaire to the compte    
+                $entityManager->persist($cpt);  
                 $entityManager->flush(); 
             }
                       
 
         return new Response(
-            "L'utilisateur a été enregistré avec succé :".$user->getId()
-            ."Le partenaire a été enregistré avec succé :".$partenaire->getId()."et compte a été enregistré avec succé :".
-            $cpt->getId()
+            "L'enregistrement a été bien effectue!"
         );     
         }
 

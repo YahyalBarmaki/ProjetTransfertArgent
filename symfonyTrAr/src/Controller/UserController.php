@@ -30,7 +30,8 @@ class UserController extends AbstractController
     /**
      * @Route("/inscris", name="inscris", methods={"POST"})
      */
-    public function addUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager,SerializerInterface $serializer, ValidatorInterface $validator)
+    public function addUser(Request $request, UserPasswordEncoderInterface $passwordEncoder,
+     EntityManagerInterface $entityManager,SerializerInterface $serializer, ValidatorInterface $validator)
         {
             $values = json_decode($request->getContent());
             if(isset($values->username,$values->password)) 
