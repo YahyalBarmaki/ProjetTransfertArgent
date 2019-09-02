@@ -1,0 +1,35 @@
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Id </th>
+                        <th scope="col">username</th>
+                        <th scope="col">role</th>
+                        <th scope="col">password</th>
+                        <th scope="col">nom</th>
+                        <th scope="col">prenom</th>
+                        <th scope="col">teluser</th>
+                        <th scope="col">status</th>
+                        <th scope="col">teluser</th>
+                        <th scope="col">image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users">
+                        <td>{{user.id}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.role}}</td>
+                        <td>{{user.password}}</td>
+                        <td>{{user.nom}}</td>
+                        <td>{{user.prenom}}</td>
+                        <td>{{user.teluser}}</td>
+                        <td>{{user.status}}</td>
+                        <td>{{user.image_name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -12,12 +12,16 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Faire un dépot</a>
       </li>
-      <li class="nav-item dropdown">
+       <li class="nav-item">
+          <a class="nav-link" routerLink="/listeU">Liste U</a>
+      </li>
+      <li class="nav-item dropdown" *ngIf="isAuthentifier()">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Ajouter
         </a>
         <div class="dropdown-menu select" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item select" href="#">utilisateur</a>
+          <a class="dropdown-item select" routerLink="/inscris">utilisateur</a>
+          <a class="dropdown-item select" routerLink="/listeU">Liste U</a>
           <a class="dropdown-item select" href="#">partenaire</a>
           <a class="dropdown-item select" href="#">cassier</a>
           <a class="dropdown-item select" href="#">admin</a>

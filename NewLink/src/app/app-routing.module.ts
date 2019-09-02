@@ -3,12 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { AddUserComponent } from './user/add-user/add-user.component';
-
+import { AjoutUser } from './modele/ajout-user';
+import { ListUserComponent } from './list-user/list-user.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'inscris', component: AddUserComponent },
+  { path: 'inscris', component: AjoutUser },
+  { path: 'listeU', component: ListUserComponent },
+
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 

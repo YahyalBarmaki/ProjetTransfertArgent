@@ -10,9 +10,18 @@ export class AuthServiceService {
   roles: Array<string>;
   constructor(private httpClient: HttpClient) { }
   login(data) {
-    return this.httpClient.post<any>(this.hostUrl + '/api/login', data, { observe: 'response' });
+    return this.httpClient.post<any>(this.hostUrl + '/api/login', data);
   }
-  saveToken(jwt: string) {
-    localStorage.setItem('token', jwt);
+  isSuperAdmin() {
+    return this.roles.indexOf('ROLE_SUPER_ADMIN') >= 0;
+  }
+  isPartenaire() {
+    return this.roles.indexOf('ROLE_PARTENAIRE') >= 0;
+  }
+  isCassier() {
+    return this.roles.indexOf(' ROLE_CASSIER') >= 0;
+  }
+  isAuthentifier() {
+    return this.roles && (this.isSuperAdmin() || this.isPartenaire || this.isCassier);
   }
 }
