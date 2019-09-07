@@ -26,6 +26,7 @@ class AppFixtures extends Fixture
          $user->setPrenom('Yaya');
          $user->setTeluser('771237655');
          $user->setStatus(1);
+         $user->setImageName('img');
          $manager->persist($user);
          $manager->flush();
     }

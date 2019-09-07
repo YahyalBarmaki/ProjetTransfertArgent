@@ -19,7 +19,7 @@ security:
             stateless: true
             anonymous: true
             json_login:
-                check_path: /api/login_check
+                check_path:               /api/login
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
         api:
@@ -39,10 +39,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/api/listeU, roles: ROLE_SUPER_ADMIN }
         - { path: ^/api/addpart, roles: ROLE_SUPER_ADMIN }
         - { path: ^/api/inscris, roles: ROLE_SUPER_ADMIN }
         - { path: ^/api/inscris, roles: ROLE_PARTENAIRE }
-        - { path: ^/api/addDepot, roles: ROLE_CASSIER }
+        - { path: ^/api/addDepot, roles: ROLE_CAISSIER }
 
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

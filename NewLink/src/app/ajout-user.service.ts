@@ -6,6 +6,7 @@ import { AjoutUser } from './modele/ajout-user';
   providedIn: 'root'
 })
 export class AjoutUserService {
+
   url = 'http://localhost:8000';
 
   constructor(private http: HttpClient) { }
@@ -14,8 +15,16 @@ export class AjoutUserService {
     // tslint:disable-next-line: align
     return this.http.get<AjoutUser[]>(this.url + '/api/listeU', {headers : headers});
   }
-  createUser(ajoutUser: AjoutUser): Observable<AjoutUser> {
-    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post<AjoutUser>(this.url + '/api/inscris', ajoutUser, httpOptions);
+  createUser(ajoutUser: AjoutUser, imageFile): Observable<AjoutUser> {
+    let headers = new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    const formData: FormData = new FormData();
+    formData.append('nom', ajoutUser.nom);
+    formData.append('prenom', ajoutUser.prenom);
+    formData.append('username', ajoutUser.username);
+    formData.append('password', ajoutUser.password);
+    formData.append('teluser', ajoutUser.teluser);
+    formData.append('status', ajoutUser.status);
+    formData.append('imageName', imageFile, imageFile.name);
+    return this.http.post<AjoutUser>(this.url + '/api/inscris', formData,{headers : headers});
   }
 }

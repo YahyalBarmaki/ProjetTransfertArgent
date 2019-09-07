@@ -1,8 +1,32 @@
 
     #bg
     {
-        background: rgb(148, 155, 154); 
+        background: rgb(248, 142, 2); 
     } 
+
+    #navbarSupportedContent li a
+    {
+        // padding:10px;
+        padding-bottom: 0;
+    }
+
+    #navbarSupportedContent li
+    {
+        padding-bottom: 0;
+        margin-right: 5px;
+    }
+     #idDrop a{
+         height: 50px;
+         line-height: 50px;
+     }
+     #idDrop a:hover{
+         background-color: #FFEBD1;
+    }
+     #idDrop{
+         padding-top: 0;
+         padding-bottom: 0;
+    }
+
     .coltext
     {
         color: white;

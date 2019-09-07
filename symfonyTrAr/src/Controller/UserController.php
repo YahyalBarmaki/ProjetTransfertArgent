@@ -3,15 +3,20 @@
 namespace App\Controller;
 use App\Entity\User;
 
+use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/api")
@@ -19,66 +24,50 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user", name="user")
+     * @Route("/listeU", name="listeUser", methods={"GET"})
      */
-    public function index()
+    public function liste(UserRepository $userRepository, SerializerInterface $serializer)
     {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
+        $listUser = $userRepository->findAll();
+        $encoders = [new JsonEncoder()]; // If no need for XmlEncoder
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonObject = $serializer->serialize($listUser, 'json', [
+            'circular_reference_handler' => function ($listUser) {
+                return $listUser->getId();
+            }
         ]);
+        return new Response($jsonObject, 200,
+        ['Content-Type' => 'application/json']);
     }
     /**
-     * @Route("/inscris", name="inscris", methods={"POST"})
+     * @Route("/inscris", name="inscris", methods={"POST","GET"})
      */
-    public function addUser(Request $request, UserPasswordEncoderInterface $passwordEncoder,
-     EntityManagerInterface $entityManager,SerializerInterface $serializer, ValidatorInterface $validator)
+    public function addUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager): Response
         {
-            $values = json_decode($request->getContent());
-            if(isset($values->username,$values->password)) 
-                {
-                    $user = new User();
-                    $user->setUsername($values->username);
-                    $user->setPassword($passwordEncoder->encodePassword($user, $values->password));
-                    $user->setRoles($values->roles);
-                    $user->setNom($values->nom);
-                    $user->setPrenom($values->prenom);
-                    $user->setTeluser($values->teluser);
-                    $user->setStatus($values->status);
-                    $errors = $validator->validate($user);
-                    if(count($errors))
-                        {
-                            $errors = $serializer->serialize($errors, 'json');
-                                return new Response($errors, 500, [
-                                'Content-Type' => 'application/json'
-                                ]);
-                        }
+            $user = new User();
+            $form = $this->createForm(UserType::class, $user);
+            $form->handleRequest($request);
+            $Values = $request->request->all();
+            
+            var_dump($Values);
+            $form->submit($Values);
+            $fileimg = $request->files->all()['imageName'];
+            //var_dump($fileimg);die();
+            $user->setPassword($passwordEncoder->encodePassword($user,
+            $form->get('password')->getData()));
+            $user->setImageFile($fileimg);
+            $user->setRoles(['ROLE_CAISSIER']);
 
-                        $entityManager->persist($user);
-                        $entityManager->flush();
-
-                        $data = [
-                            'status' => 201,
-                            'message' => 'L\'utilisateur a été créé'
-                        ];
-
-                        return new JsonResponse($data, 201);
-                }
-                $data = [
-                    'status' => 500,
-                    'message' => 'Vous devez renseigner les clés username et password'
-                ];
-                return new JsonResponse($data, 500);
-        }
-    /**
-     * @Route("/login", name="login", methods={"POST"})
-     */
-    public function login(Request $request)
-    {
-        $user = $this->getUser();
-        return $this->json([
-            'username' => $user->getUsername(),
-            'roles' => $user->getRoles()
-        ]);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $data = [
+                'statut' => 201,
+                'massage' => 'L"utilisateur été bien ajouté'
+              ];
+              return new JsonResponse($data, 201);
+          
+        }   
     }
-    
-}
+

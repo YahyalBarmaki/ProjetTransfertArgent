@@ -1,35 +1,51 @@
-<div class="container pt-5">
-    <div class="row">
-        <div class="col-12">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Id </th>
-                        <th scope="col">username</th>
-                        <th scope="col">role</th>
-                        <th scope="col">password</th>
-                        <th scope="col">nom</th>
-                        <th scope="col">prenom</th>
-                        <th scope="col">teluser</th>
-                        <th scope="col">status</th>
-                        <th scope="col">teluser</th>
-                        <th scope="col">image</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let user of users">
-                        <td>{{user.id}}</td>
-                        <td>{{user.username}}</td>
-                        <td>{{user.role}}</td>
-                        <td>{{user.password}}</td>
-                        <td>{{user.nom}}</td>
-                        <td>{{user.prenom}}</td>
-                        <td>{{user.teluser}}</td>
-                        <td>{{user.status}}</td>
-                        <td>{{user.image_name}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<h1>Liste des utilisateurs</h1>
+<div *ngIf="afficher">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Recherche">
+  </mat-form-field>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+        <td mat-cell *matCellDef="let row"> {{ row.id }} </td>
+      </ng-container>
+
+      <!-- Progress Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+        <td mat-cell *matCellDef="let row"> {{ row.username }} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+        <td mat-cell *matCellDef="let row"> {{ row.roles[0] }} </td>
+      </ng-container>
+
+      <!-- Color Column -->
+      <ng-container matColumnDef="nom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+        <td mat-cell *matCellDef="let row"> {{ row.nom }} </td>
+      </ng-container>
+
+      <!-- Color Column -->
+      <ng-container matColumnDef="prenom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Prénom </th>
+        <td mat-cell *matCellDef="let row" > {{ row.prenom }} </td>
+      </ng-container>
+      <!-- Color Column -->
+      <ng-container matColumnDef="teluser">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Téléphhone </th>
+        <td mat-cell *matCellDef="let row" > {{ row.teluser }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
 </div>

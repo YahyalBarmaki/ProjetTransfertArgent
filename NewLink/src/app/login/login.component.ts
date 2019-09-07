@@ -4,8 +4,6 @@ import { AuthServiceService } from '../auth-service.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,7 +19,6 @@ export class LoginComponent implements OnInit {
   onLogin(data) {
     this.authser.login(data)
       .subscribe(resp => {
-        //console.log(resp);
         const token = resp.token;
         localStorage.setItem('token', resp.token);
         const decodedToken = this.helper.decodeToken(token);
@@ -29,19 +26,14 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('username', decodedToken.username);
         localStorage.setItem('roles', decodedToken.roles[0]);
         localStorage.setItem('exp', decodedToken.exp);
+        // tslint:disable-next-line: whitespace
+        if (decodedToken.roles[0] === 'ROLE_SUPER_ADMIN') {
+          this.route.navigate(['/listeU']);
+        }
         console.log(localStorage);
-        // this.route.navigate(['/listeU']);
-       // const jwt = resp.body['token'];
-      //  this.authser.saveToken(jwt);
-          //   localStorage.setItem('token',token)
-          // console.log(resp.headers.get('Authorization'));
-          //  localStorage.setItem('token', resp.t);
         },
         err => console.log(err)
       );
-       // console.log(resp.headers['token']);
-       // let jwt = resp.headers.get('Authorization');
-       // this.authser.saveToken(jwt);
   }
  
 

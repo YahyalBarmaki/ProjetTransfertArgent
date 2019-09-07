@@ -47,9 +47,15 @@ class Compte
      */
     private $depot;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="compte")
+     */
+    private $compte;
+
     public function __construct()
     {
         $this->depot = new ArrayCollection();
+        $this->compte = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,6 +124,37 @@ class Compte
             // set the owning side to null (unless already changed)
             if ($depot->getCompte() === $this) {
                 $depot->setCompte(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getCompte(): Collection
+    {
+        return $this->compte;
+    }
+
+    public function addCompte(Transaction $compte): self
+    {
+        if (!$this->compte->contains($compte)) {
+            $this->compte[] = $compte;
+            $compte->setCompte($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompte(Transaction $compte): self
+    {
+        if ($this->compte->contains($compte)) {
+            $this->compte->removeElement($compte);
+            // set the owning side to null (unless already changed)
+            if ($compte->getCompte() === $this) {
+                $compte->setCompte(null);
             }
         }
 

@@ -1,1 +1,38 @@
-<h1>Bonjour</h1>
+<form class="text-center" style="color: #757575;" #form="ngForm"(ngSubmit)="onSubmit(form.value)">
+    <h1>Ajout un utilisateur</h1>
+    <!-- Nom -->
+      <div class="md-form">
+        <input type="text" id="idN" name ="nom" class="form-control" ngModel placeholder="Nom">
+      </div>
+      <!-- Prénom -->
+      <div class="md-form">
+        <input type="text" id="idPr" name ="prenom" class="form-control" ngModel placeholder="Prénom">
+      </div>
+      <!-- Email -->
+      <div class="md-form">
+        <input type="email" id="idU" name ="username" class="form-control" ngModel placeholder="username">
+      </div>
+
+      <!-- Password -->
+      <div class="md-form">
+        <input type="password" id="idP" name ="password" class="form-control" ngModel placeholder="password">
+      </div>
+      <!-- Role -->
+      <div class="md-form">
+        <input type="text" id="idR" name ="status" class="form-control" ngModel placeholder="Status">
+      </div>
+      <!-- status -->
+      <div class="md-form">
+        <input type="text" id="idR" name ="role" class="form-control" ngModel placeholder="Role">
+      </div>
+       <!-- status -->
+      <div class="md-form">
+        <img [src]="imageUrl">
+      </div>
+       <!-- ImageFile -->
+      <div class="md-form">
+        <input type="file" id="idImg" name ="image" class="form-control" ngModel placeholder="Image" #ImageFile accep="image/*" (change)="handleFileInput($event.target.files)">
+      </div>
+      <!-- Sign in button -->
+      <button class="btn btn-success" type="submit">Enregistrer</button>
+    </form>
